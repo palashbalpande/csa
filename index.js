@@ -18,7 +18,7 @@ async function main() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log(`✅ Database connected`);
-
+    
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
@@ -27,5 +27,5 @@ async function main() {
     process.exit(1); // Exit process if DB connection fails
   }
 }
-
-main();
+   
+main();   

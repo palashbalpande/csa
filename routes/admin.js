@@ -5,6 +5,7 @@ const { adminModel } = require("../db");
 const bcrypt = require("bcrypt"); // ✅ Change this to require
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
+const { adminMiddleware } = require("../middleware/admin");
 
 const signupSchema = z.object({
   email: z.string().email({ message: "Invalid email format" }),
@@ -76,7 +77,18 @@ adminRouter.post("/signin", async function (req, res) {
   }
 });
 
-adminRouter.post("/course", function (req, res) {});
+adminRouter.post("/course", adminMiddleware, async function (req, res) {
+  const creatorId = req.adminId;
+  const { title, description, price, imageUrl } = req.body;
+  const course = await courseModel.create({
+    title,
+    description,
+    price,
+    imageUrl,
+    creatorId,
+  });
+  res.json({ message: "Course created", courseId: course._id });
+});
 
 adminRouter.put("/course", function (req, res) {});
 

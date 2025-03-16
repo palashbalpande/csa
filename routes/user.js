@@ -6,6 +6,7 @@ const { userModel } = require("../db");
 const bcrypt = require("bcrypt"); 
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
+const { userMiddleware } = require("../middleware/user");
 
 const userRouter = Router();
 
@@ -79,7 +80,12 @@ userRouter.post("/signin", async function (req, res) {
   }
 });
 
-userRouter.get("/purchases", function (req, res) {});
+userRouter.get("/purchases", userMiddleware, async function (req, res) {
+  const userId = req.userId;
+  const purchases = await purchaseModel.find({ userId });
+
+  res.json({ purchases });
+});
 
 module.exports = {
   userRouter,

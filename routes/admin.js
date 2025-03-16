@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const adminRouter = Router();
 
-const { adminModel } = require("../db");
+const { adminModel, courseModel } = require("../db");
 const bcrypt = require("bcrypt"); // ✅ Change this to require
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
@@ -116,4 +116,4 @@ adminRouter.get("/course/bulk", adminMiddleware, async function (req, res) {
 
 module.exports = {
   adminRouter,
-};
+}; 
